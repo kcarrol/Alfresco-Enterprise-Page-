@@ -67,7 +67,7 @@ jobs:
         uses: plasmicapp/plasmic-action@master
         with:
           run: build
-          branch: ${{ github.event.client_payload.data.branch }}
+          branch: ${{ github.event.client_payload.data.branch }} 
           directory: ${{ github.event.client_payload.data.directory }}
           platform: ${{ github.event.client_payload.data.platform }}
       - id: gh-pages
