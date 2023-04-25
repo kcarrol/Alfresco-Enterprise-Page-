@@ -33,7 +33,7 @@ jobs:
       - name: Set variables
         id: vars
         run: |
-          branch=${GITHUB_REF##*/}
+          branch=${GITHUB_REF##*/} 
 
           echo ::set-output name=branchName::$branch
            
