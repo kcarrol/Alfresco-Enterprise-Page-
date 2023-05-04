@@ -66,7 +66,7 @@ jobs:
         id: package_json_exists
         uses: fathym/file-existence-action@master
         with:
-          files: 'package.json'
+          files: 'package.json' 
 
       # replace text in package.json for main branch
       - name: replace version text for main branch
