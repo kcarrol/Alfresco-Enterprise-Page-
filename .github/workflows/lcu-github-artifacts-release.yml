@@ -12,7 +12,7 @@ env:
   CI: false
   Branches: main
   MainBranch: main
-  NPMRegistry: https://registry.npmjs.org/
+  NPMRegistry: https://registry.npmjs.org/ 
   InstallCommand: npm i
   BuildCommand: npm run build
   Output: ./public
