@@ -55,7 +55,7 @@ jobs:
         id: versionBump
         env:
           DEFAULT_BUMP: ${{ steps.vars.outputs.versionBump }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
           RELEASE_BRANCHES: .*
           WITH_V: false
           DRY_RUN: true
