@@ -1,21 +1,22 @@
-name: kcarrol/Alfresco-Enterprise-Page-
+name: React Build/Release
 
 on:
   push:
-    branches: [main]
+    branches: [main,integration,feature/**,hotfix/**]
   pull_request:
-    branches: [main]
+    branches: [main,integration,feature/**,hotfix/**]
+  workflow_dispatch:
 
-permissions: write-all 
+permissions: write-all
 
 env:
   CI: false
-  Branches: main
-  MainBranch: main
-  NPMRegistry: https://registry.npmjs.org/ 
-  InstallCommand: npm i
+  Branches: main,integration,feature/**,hotfix/**
+  MainBranch: integration
+  NPMRegistry: https://registry.npmjs.org/
+  InstallCommand: npm ci
   BuildCommand: npm run build
-  Output: ./public
+  Output: ./build
 
 jobs:
   build:
@@ -33,11 +34,11 @@ jobs:
       - name: Set variables
         id: vars
         run: |
-          branch=${GITHUB_REF##*/} 
+          branch=${GITHUB_REF##*/}
 
           echo ::set-output name=branchName::$branch
            
-          if [ "$branch" == "${{ env.MainBranch }}" ] 
+          if [ "$branch" == "${{ env.MainBranch }}" ]
           then
               echo "::set-output name=versionBump::minor"
           else
@@ -55,7 +56,7 @@ jobs:
         id: versionBump
         env:
           DEFAULT_BUMP: ${{ steps.vars.outputs.versionBump }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_BRANCHES: .*
           WITH_V: false
           DRY_RUN: true
@@ -66,7 +67,7 @@ jobs:
         id: package_json_exists
         uses: fathym/file-existence-action@master
         with:
-          files: 'package.json' 
+          files: 'package.json'
 
       # replace text in package.json for main branch
       - name: replace version text for main branch
@@ -90,7 +91,7 @@ jobs:
         if: ${{ (!!env.InstallCommand || !!env.BuildCommand) && steps.package_json_exists.outputs.files_exists == 'true' }}
         with:
           node-version: '*'
-          registry-url: ${{ env.NPMRegistry }} 
+          registry-url: ${{ env.NPMRegistry }}
 
       # install npm dependencies from package-lock.json
       - name: npm install
